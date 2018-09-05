@@ -1,8 +1,9 @@
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
 
 module.exports = {
+
   entry: {
-    myPackageDemo: [`./html/render.js`],
+    myComponent: [`babel-polyfill`, `whatwg-fetch`, `./html/render.js`]
   },
 
   plugins: [
@@ -21,7 +22,7 @@ module.exports = {
       cacheGroups: {
         facetedSearch: {
           test: /[\\/]src[\\/]/,
-          name: `myPackage`,
+          name: `myComponent`,
           priority: -20
         },
         vendors: {
@@ -39,6 +40,23 @@ module.exports = {
         test: /\.js$/i,
         exclude: /node_modules\//,
         use: `babel-loader`
+      },
+
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              camelCase: true,
+              sourceMap: true
+            }
+          }
+        ]
       }
     ]
   }
