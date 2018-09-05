@@ -6,7 +6,7 @@
   "scripts": {
     "dist": "NODE_ENV=production webpack --optimize-minimize",
     "prepack": "rm -rf lib && babel src -d lib --copy-files",
-    "test": "jest --env=node --coverage --verbose",
+    "test": "jest --coverage --verbose",
     "postversion": "npm publish",
     "postpublish": "git push && git push --tags"
   },

@@ -29,25 +29,27 @@ const renderRoutes = path =>
     <MemoryRouter initialEntries={[path]}>
         <SwitchRoute {...props} />
     </MemoryRouter>
-);
+)
 
-test('invalid path should redirect to 404', () => {
+describe(`SwitchRoute`,()=>{
+
+  test('invalid path should redirect to 404', () => {
   const component = renderRoutes("/random");
   expect(component.find(AboutPage)).toHaveLength(0);
   expect(component.find(NotFoundPage)).toHaveLength(1);
-  
-});
+  });
 
-test('valid path should not redirect to 404', () => {
-  const component = renderRoutes("/");
-  expect(component.find(NotFoundPage)).toHaveLength(0);
-  expect(component.find(AboutPage)).toHaveLength(1);
-  
-});
+  test('valid path should not redirect to 404', () => {
+    const component = renderRoutes("/");
+    expect(component.find(NotFoundPage)).toHaveLength(0);
+    expect(component.find(AboutPage)).toHaveLength(1);
+  });
 
-test('valid gene search path should redirect to react-faceted-search', () => {
-  const component = renderRoutes(props.routepath);
-  expect(component.find(NotFoundPage)).toHaveLength(0);
-  expect(component.find(AboutPage)).toHaveLength(0);
-  expect(component.find(FetchLoader)).toHaveLength(1);
-});
+  test('valid gene search path should redirect to react-faceted-search', () => {
+    const component = renderRoutes(props.routepath);
+    expect(component.find(NotFoundPage)).toHaveLength(0);
+    expect(component.find(AboutPage)).toHaveLength(0);
+    expect(component.find(FetchLoader)).toHaveLength(1);
+  });
+})
+
