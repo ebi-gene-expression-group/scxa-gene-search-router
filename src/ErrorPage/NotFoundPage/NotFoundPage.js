@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-//import './NotFoundPage.css';
+import './NotFoundPage.css';
 
 const Status = ({ code, children }) => (
   <Route
