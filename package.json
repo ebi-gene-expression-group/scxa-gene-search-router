@@ -29,9 +29,18 @@
     "url": "https://github.com/gxa/my-package.git"
   },
   "dependencies": {
+    "connect-history-api-fallback": "^1.5.0",
+    "express": "^4.16.3",
+    "koa-connect": "^2.0.1",
+    "path": "^0.12.7",
     "prop-types": "^15.6.2",
+    "query-string": "^6.1.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-faceted-search": "file:../scxa-faceted-search-results",
+    "react-router-dom": "^4.3.1",
+    "scxa-gene-search-form": "file:../scxa-gene-search-form",
+    "styled-components": "^3.4.5",
     "urijs": "^1.19.1"
   },
   "devDependencies": {
@@ -44,12 +53,17 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^1.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^23.4.0",
     "react-test-renderer": "^16.4.1",
+    "style-loader": "^0.23.0",
     "webpack": "^4.16.0",
+    "webpack-cli": "^3.1.0",
     "webpack-command": "^0.4.1",
-    "webpack-serve": "^2.0.2"
+    "webpack-dev-server": "^3.1.7",
+    "webpack-serve": "^2.0.2",
+    "whatwg-fetch": "^2.0.4"
   }
 }
