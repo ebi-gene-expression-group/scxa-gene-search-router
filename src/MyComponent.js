@@ -66,15 +66,15 @@ class MyComponent extends Component {
   }
 
 
-  _speciesSelectOnChange(event) {
+  _speciesSelectOnChange(value) {
     //event.persist();
     this.setState({ 
-      species: event.target.value.replace(' ','+'),
+      species: value.replace(' ','+'),
       routepath : `test`
     });
 
     this.props.history.push({
-        pathname:  `/gxa/sc/search?${this.state.category}=${this.state.value}&species=${event.target.value.replace(' ','+')}`
+        pathname:  `/gxa/sc/search?${this.state.category}=${this.state.value}&species=${value.replace(' ','+')}`
     })
   }
 
