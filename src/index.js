@@ -1,3 +1,3 @@
-import MyComponent from './MyComponent.js'
+import SearchApp from './SearchApp.js'
 
-export default MyComponent
+export default SearchApp
