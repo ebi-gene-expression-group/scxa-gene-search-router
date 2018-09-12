@@ -30,7 +30,7 @@ const formprops = {
     };
 
 
-class MyComponent extends Component {
+class SearchApp extends Component {
   
   constructor(props){
     super(props)
@@ -188,15 +188,11 @@ class MyComponent extends Component {
           pathname: this.props.history.location.pathname+this.props.history.location.search.replace(`%20`,` `)
       })
     }
-    console.log(`keys`,Object.keys(values));
-    console.log(`values`,Object.values(values));
-    
 
   }
 
   render() {
 
-    console.log(`routepath2`,this.state.routepath);
     return (     
       <div className="App">
         <div className={formprops.wrapperClassName}>
@@ -211,4 +207,4 @@ class MyComponent extends Component {
   }
 }
 
-export default withRouter(MyComponent);
+export default withRouter(SearchApp);
