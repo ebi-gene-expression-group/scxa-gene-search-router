@@ -10,19 +10,22 @@ import AboutPage from './ErrorPage/AboutPage.js';
 // );
 
 
-const SwitchRoute = ({value,species,category,ResultElementClass,handleSelections,routepath, nextSelectedFacets}) => (
+const SwitchRoute = ({atlasUrl,suggesterEndpoint,value,species,category,ResultElementClass,handleSelections,routepath,nextSelectedFacets,facetGroup}) => (
 	<div>
 		<Switch>
-			<Route exact path ={`/gxa/sc/search?geneID=${value}&species=${species}`} 
-			render={props => (<FetchLoader {...props} geneID={value} nextSelectedFacets={{}} handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
-			host="http://localhost:8080/gxa/sc/json/search?ensgene=" resource={value} species={species?species.replace('+',' '):species}/>)}/>
+			<Route exact path ={`/${suggesterEndpoint}geneID=${value}&species=${species}`} 
+			render={props => (<FetchLoader {...props} geneID={value} nextSelectedFacets={{}} facetGroup={facetGroup} 
+			handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
+			host={`${atlasUrl}${suggesterEndpoint}ensgene=`} resource={value} species={species?species.replace('+',' '):species}/>)}/>
 
-			<Route exact path ={`/gxa/sc/search?${category}=${value}&species=${species}`} 
-			render={props => (<FetchLoader {...props} geneID={value} nextSelectedFacets={{}} handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
-			host={`http://localhost:8080/gxa/sc/json/search?${category}=${value}&species=${species}`} resource={''} species={species?species.replace('+',' '):species}/>)}/>
+			<Route exact path ={`/${suggesterEndpoint}${category}=${value}&species=${species}`} 
+			render={props => (<FetchLoader {...props} geneID={value} nextSelectedFacets={{}} facetGroup={facetGroup}
+			handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
+			host={`${atlasUrl}${suggesterEndpoint}`} resource={`${category}=${value}&species=${species}`} species={species?species.replace('+',' '):species}/>)}/>
 			
-			<Route exact path={routepath} render={props => (<FetchLoader {...props} geneID={value} nextSelectedFacets={nextSelectedFacets} handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
-			host={`http://localhost:8080/gxa/sc/json/search?${category}=${value}&species=${species}`} resource={''} species={species?species.replace('+',' '):species}/>)}/>
+			<Route exact path={routepath} render={props => (<FetchLoader {...props} geneID={value} facetGroup={facetGroup}
+			nextSelectedFacets={nextSelectedFacets} handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
+			host={`${atlasUrl}${suggesterEndpoint}`} resource={`${category}=${value}&species=${species}`} species={species?species.replace('+',' '):species}/>)}/>
 
 			<Route exact path="/" component={AboutPage}/>
 			<Route component={NotFoundPage} />
