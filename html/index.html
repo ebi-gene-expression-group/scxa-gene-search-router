@@ -26,7 +26,27 @@
 
 <!-- Set to http://localhost:8080/gxa/ or http://localhost:8080/gxa_sc/ -- Remember the trailing slash! -->
 <script>
-  SearchApp.render({}, 'target')
+    const props = {
+      atlasUrl: 'http://localhost:8080/',
+      wrapperClassName: 'row',
+      actionEndpoint: 'search',
+      suggesterEndpoint: 'gxa/sc/json/search?',
+      autocompleteClassName: 'small-8 columns',
+      enableSpeciesSelect: true ,
+      enableSubmitButton: false,
+      speciesEndpoint: 'json/suggestions/species',
+      speciesSelectClassName: 'small-4 columns',
+      defaultSpecies: 'Any',
+      selectedSpecies:'',
+      allSpecies: ["Homo sapiens", "Mus musculus"],
+      defaultValue: {
+        term: 'test',
+        category: 'bar'
+      },
+      speciesSelectStatusMessage:'',
+      facetGroup: [`Inferred cell type`,`Marker genes`,`Species`,`Organism part`]
+    };
+    SearchApp.render({props}, 'target')
 </script>
 
 </html>
