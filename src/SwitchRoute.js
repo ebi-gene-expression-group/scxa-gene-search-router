@@ -10,15 +10,15 @@ import AboutPage from './ErrorPage/AboutPage.js';
 // );
 
 
-const SwitchRoute = ({atlasUrl,suggesterEndpoint,value,species,category,ResultElementClass,handleSelections,routepath,nextSelectedFacets,facetGroup}) => (
+const SwitchRoute = ({routerEndpoint,atlasUrl,suggesterEndpoint,value,species,category,ResultElementClass,handleSelections,routepath,nextSelectedFacets,facetGroup}) => (
 	<div>
 		<Switch>
-			<Route exact path ={`/${suggesterEndpoint}geneID=${value}&species=${species}`} 
+			<Route exact path ={`${routerEndpoint}geneID=${value}&species=${species}`} 
 			render={props => (<FetchLoader {...props} geneID={value} nextSelectedFacets={{}} facetGroup={facetGroup} 
 			handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
 			host={`${atlasUrl}${suggesterEndpoint}ensgene=`} resource={value} species={species?species.replace('+',' '):species}/>)}/>
 
-			<Route exact path ={`/${suggesterEndpoint}${category}=${value}&species=${species}`} 
+			<Route exact path ={`${routerEndpoint}${category}=${value}&species=${species}`} 
 			render={props => (<FetchLoader {...props} geneID={value} nextSelectedFacets={{}} facetGroup={facetGroup}
 			handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
 			host={`${atlasUrl}${suggesterEndpoint}`} resource={`${category}=${value}&species=${species}`} species={species?species.replace('+',' '):species}/>)}/>
