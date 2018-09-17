@@ -9,6 +9,7 @@ import ExperimentCard from './ExperimentCard';
 import uri from 'urijs'
 import _ from 'lodash'
 
+const routerEndpoint = `/gxa/sc/search?` 
 
 class SearchApp extends Component {
   
@@ -40,7 +41,7 @@ class SearchApp extends Component {
     }
    
     this.props.history.push({
-      pathname: `/gxa/sc/search?${val.category}=${this.state.value}&species=${this.state.species}`,
+      pathname: `${routerEndpoint}${val.category}=${this.state.value}&species=${this.state.species}`,
     })
     
   }
@@ -54,7 +55,7 @@ class SearchApp extends Component {
     });
 
     this.props.history.push({
-        pathname:  `/gxa/sc/search?${this.state.category}=${this.state.value}&species=${value.replace(' ','+')}`
+        pathname:  `${routerEndpoint}${this.state.category}=${this.state.value}&species=${value.replace(' ','+')}`
     })
   }
 
@@ -86,9 +87,7 @@ class SearchApp extends Component {
                   typeof values[termValue] === `string` ? 
                    [{
                     group: term,
-
                     label: values[termValue].split().map(value=>value.charAt(0).toUpperCase()+ value.replace(/\+/g,' ').substr(1)),
-
                     value: values[termValue].split().map(value=>value.replace(/\+/g,' '))[0],
                     disabled : false
                   }] :
@@ -137,7 +136,7 @@ class SearchApp extends Component {
              onChange={this.handleSubmit} speciesSelectOnChange={this.speciesSelectOnChange}/>
         </div>
         
-        <SwitchRoute {...props} nextSelectedFacets={this.state.nextSelectedFacets} routepath={this.state.routepath} handleSelections={this.handleSelections} 
+        <SwitchRoute {...props} routerEndpoint={routerEndpoint} nextSelectedFacets={this.state.nextSelectedFacets} routepath={this.state.routepath} handleSelections={this.handleSelections} 
         ResultElementClass={ExperimentCard} value={this.state.value} species={this.state.species} category={this.state.category}/>
       </div>
     );
