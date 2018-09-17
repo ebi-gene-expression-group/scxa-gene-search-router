@@ -9,26 +9,6 @@ import ExperimentCard from './ExperimentCard';
 import uri from 'urijs'
 import _ from 'lodash'
 
-const formprops = {
-      atlasUrl: 'http://localhost:8080/gxa/sc/',
-      wrapperClassName: 'row',
-      actionEndpoint: 'search',
-      suggesterEndpoint: 'json/suggestions/gene_ids',
-      autocompleteClassName: 'small-8 columns',
-      enableSpeciesSelect: true ,
-      enableSubmitButton: false,
-      speciesEndpoint: 'json/suggestions/species',
-      speciesSelectClassName: 'small-4 columns',
-      defaultSpecies: 'Any',
-      selectedSpecies:'',
-      allSpecies: ["Homo sapiens", "Mus musculus"],
-      defaultValue: {
-        term: 'test',
-        category: 'bar'
-      },
-      speciesSelectStatusMessage:''
-    };
-
 
 class SearchApp extends Component {
   
@@ -81,7 +61,8 @@ class SearchApp extends Component {
   handleSelections(routepath, nextSelectedFacets){
     const host = new uri(this.props.history.location.pathname);
 
-    const queryURL = host.query(routepath).addQuery(this.state.category,this.state.value).addQuery('species',this.state.species).toString()
+    const queryURL = host.query(routepath).addQuery(this.state.category,this.state.value).addQuery('species',this.state.species).toString().replace(/\%2B/g,'+')
+    console.log(routepath,queryURL)
     
     this.setState({
       routepath: queryURL,
@@ -98,94 +79,50 @@ class SearchApp extends Component {
     let category =Object.keys(values).filter(val => val==='symbol'||val==='q'||val==='mgi_symbol'||val==='hgnc_symbol')[0];
     let value = values[category];
     //Object.values(values).forEach(val=>typeof val=== `string` ? [val]:val);
-    
+    const parseQuery =(term, values)=>{
+      let termValue = term===`Species`? `selectedspecies`: term.toLowerCase().replace(/\s/g,``)
+      return (
+        values[termValue] ?
+                  typeof values[termValue] === `string` ? 
+                   [{
+                    group: term,
+
+                    label: values[termValue].split().map(value=>value.charAt(0).toUpperCase()+ value.replace(/\+/g,' ').substr(1)),
+
+                    value: values[termValue].split().map(value=>value.replace(/\+/g,' '))[0],
+                    disabled : false
+                  }] :
+                  values[termValue].map(
+                    val=>{
+                      return {group: term,
+                    label: val.charAt(0).toUpperCase()+ val.replace(/\+/g,' ').substr(1),
+                    value: val.replace(/\+/g,' '),
+                    disabled : false}
+                  }
+                    )
+                :[]
+        )
+    }
+
     this.setState({
       category: category,
       species: values.species?values.species.replace(' ','+'):'',
       value: value,
-      routepath: _.isEmpty(values)?`test`:this.props.history.location.pathname+this.props.history.location.search.replace(`%20`,` `),
+      routepath: _.isEmpty(values)?`test`:this.props.history.location.pathname+this.props.history.location.search,
       
       nextSelectedFacets: 
-      {
-            "Inferred cell type" : values.inferredcelltype?
-                                typeof values.inferredcelltype === `string` ? 
-                                 [{
-                                  group: "Inferred cell type",
-
-                                  label: values.inferredcelltype.split().map(value=>value.charAt(0).toUpperCase()+ value.replace(/-/g,' ').substr(1)),
-
-                                  value: values.inferredcelltype.split().map(value=>value.replace(/-/g,' '))[0],
-                                  disabled : false
-                                }] :
-                                values.inferredcelltype.map(
-                                  val=>{
-                                    return {group: "Inferred cell type",
-                                  label: val.charAt(0).toUpperCase()+ val.replace(/-/g,' ').substr(1),
-                                  value: val.replace(/-/g,' '),
-                                  disabled : false}
-                                  
-                                }
-                                  )
-                                 
-                              :[],
-
-            "Marker genes" : values.markergenes?[{
-              group: "Marker genes",
-              label: values.markergenes.split().map(value=>value.charAt(0).toUpperCase()+ value.replace(/-/g,' ').substr(1)),
-              value: values.markergenes.split().map(value=>value.replace(/-/g,' '))[0],
-              disabled : false
-            }]:[],
-
-            "Organism part" : values.organismpart?
-                                typeof values.organismpart === `string` ? 
-                                 [{
-                                  group: "Organism part",
-
-                                  label: values.organismpart.split().map(value=>value.charAt(0).toUpperCase()+ value.replace(/-/g,' ').substr(1)),
-
-                                  value: values.organismpart.split().map(value=>value.replace(/-/g,' '))[0],
-                                  disabled : false
-                                }] :
-                               values.organismpart.map(
-                                  val=>{
-                                  return {group: "Organism part",
-                                  label: val.charAt(0).toUpperCase()+ val.replace(/-/g,' ').substr(1),
-                                  value: val.replace(/-/g,' '),
-                                  disabled : false}
-                                }
-                                  )
-
-                              :[],
-
-            "Species" : values.selectedspecies?
-                                typeof values.selectedspecies === `string` ? 
-                                 [{
-                                  group: "Species",
-
-                                  label: values.selectedspecies.split().map(value=>value.charAt(0).toUpperCase()+ value.replace(/-/g,' ').substr(1)),
-
-                                  value: values.selectedspecies.split().map(value=>value.replace(/-/g,' '))[0],
-                                  disabled : false
-                                }] :
-                               values.selectedspecies.map(
-                                  val=>{
-                                  return {group: "Species",
-
-                                  label: val.charAt(0).toUpperCase()+ val.replace(/-/g,' ').substr(1),
-
-                                  value: val.replace(/-/g,' '),
-                                  disabled : false}
-                                }
-                                  )
-
-                              :[]
-          } 
+        {
+          "Inferred cell type": parseQuery(`Inferred cell type`,values),
+          "Marker genes": parseQuery(`Marker genes`, values),
+          "Organism part" : parseQuery(`Organism part`,values),
+          "Species" : parseQuery(`Species`,values)
+        } 
      
     },()=>console.log(`nextSelectedFacets-top`,this.state.nextSelectedFacets))
 
     if(Object.keys(values)[1]){
       this.props.history.push({
-          pathname: this.props.history.location.pathname+this.props.history.location.search.replace(`%20`,` `)
+          pathname: this.props.history.location.pathname+this.props.history.location.search
       })
     }
 
@@ -195,12 +132,12 @@ class SearchApp extends Component {
 
     return (     
       <div className="App">
-        <div className={formprops.wrapperClassName}>
-            <GeneSearchForm {...formprops} currentValue ={this.state.value} currentSpecies={this.state.species?this.state.species.replace('+',' '):this.state.species}
+        <div className={props.wrapperClassName}>
+            <GeneSearchForm {...props} currentValue ={this.state.value} currentSpecies={this.state.species?this.state.species.replace('+',' '):this.state.species}
              onChange={this.handleSubmit} speciesSelectOnChange={this.speciesSelectOnChange}/>
         </div>
         
-        <SwitchRoute nextSelectedFacets={this.state.nextSelectedFacets} routepath={this.state.routepath} handleSelections={this.handleSelections} 
+        <SwitchRoute {...props} nextSelectedFacets={this.state.nextSelectedFacets} routepath={this.state.routepath} handleSelections={this.handleSelections} 
         ResultElementClass={ExperimentCard} value={this.state.value} species={this.state.species} category={this.state.category}/>
       </div>
     );
