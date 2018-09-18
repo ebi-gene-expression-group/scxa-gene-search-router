@@ -14,16 +14,16 @@ const SwitchRoute = ({routerEndpoint,atlasUrl,suggesterEndpoint,value,species,ca
 	<div>
 		<Switch>
 			<Route exact path ={`${routerEndpoint}geneID=${value}&species=${species}`} 
-			render={props => (<FetchLoader {...props} geneID={value} nextSelectedFacets={{}} facetGroup={facetGroup} 
+			render={props => (<FetchLoader {...props} searchID={value} nextSelectedFacets={{}} facetGroup={facetGroup} 
 			handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
 			host={`${atlasUrl}${suggesterEndpoint}ensgene=`} resource={value} species={species?species.replace('+',' '):species}/>)}/>
 
 			<Route exact path ={`${routerEndpoint}${category}=${value}&species=${species}`} 
-			render={props => (<FetchLoader {...props} geneID={value} nextSelectedFacets={{}} facetGroup={facetGroup}
+			render={props => (<FetchLoader {...props} searchID={value} nextSelectedFacets={{}} facetGroup={facetGroup}
 			handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
 			host={`${atlasUrl}${suggesterEndpoint}`} resource={`${category}=${value}&species=${species}`} species={species?species.replace('+',' '):species}/>)}/>
 			
-			<Route exact path={routepath} render={props => (<FetchLoader {...props} geneID={value} facetGroup={facetGroup}
+			<Route exact path={routepath} render={props => (<FetchLoader {...props} searchID={value} facetGroup={facetGroup}
 			nextSelectedFacets={nextSelectedFacets} handleSelections={handleSelections} ResultElementClass={ResultElementClass} 
 			host={`${atlasUrl}${suggesterEndpoint}`} resource={`${category}=${value}&species=${species}`} species={species?species.replace('+',' '):species}/>)}/>
 
