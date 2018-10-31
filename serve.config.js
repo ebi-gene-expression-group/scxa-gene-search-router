@@ -17,7 +17,7 @@ module.exports.serve = {
   },
   // Make route request back to local port
   add: (app, middleware, options) => {
-	app.use(convert(history()));
+	   app.use(convert(history()))
   },
 
   port: 9000
