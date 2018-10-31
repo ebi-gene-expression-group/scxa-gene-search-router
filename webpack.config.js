@@ -1,9 +1,12 @@
+const path = require(`path`)
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
 
-module.exports = {
+const commonPublicPath = `/dist/`
+const vendorsBundleName = `vendors`
 
+module.exports = {
   entry: {
-    SearchApp: [`babel-polyfill`, `whatwg-fetch`, `./html/render.js`]
+    searchDemo: [`@babel/polyfill`, `./html/render.js`],
   },
 
   plugins: [
@@ -12,23 +15,20 @@ module.exports = {
 
   output: {
     library: `[name]`,
-    filename: `[name].bundle.js`
+    filename: `[name].bundle.js`,
+    publicPath: commonPublicPath
   },
 
   optimization: {
+    runtimeChunk: {
+       name: vendorsBundleName
+    },
     splitChunks: {
-      chunks: `all`,
-      minSize: 1,
       cacheGroups: {
-        facetedSearch: {
-          test: /[\\/]src[\\/]/,
-          name: `SearchApp`,
-          priority: -20
-        },
-        vendors: {
+        commons: {
           test: /[\\/]node_modules[\\/]/,
-          name: `vendors`,
-          priority: -10
+          name: vendorsBundleName,
+          chunks: 'all'
         }
       }
     }
@@ -40,24 +40,13 @@ module.exports = {
         test: /\.js$/i,
         exclude: /node_modules\//,
         use: `babel-loader`
-      },
-
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              camelCase: true,
-              sourceMap: true
-            }
-          }
-        ]
       }
     ]
+  },
+
+  devServer: {
+    port: 9000,
+    contentBase: path.resolve(__dirname, `html`),
+    publicPath: commonPublicPath
   }
 }
