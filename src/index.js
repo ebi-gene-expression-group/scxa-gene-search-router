@@ -1,3 +1,3 @@
-import SearchApp from './SearchApp.js'
+import SearchApp from './SearchApp'
 
 export default SearchApp

@@ -1,14 +1,9 @@
 import React from 'react'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import FetchLoader from 'react-faceted-search'
-import NotFoundPage from './ErrorPage/NotFoundPage/NotFoundPage.js'
 
-import AboutPage from './ErrorPage/AboutPage.js';
-
-// const About = () =>(
-// 	<div className="NotFoundPage"> Home Page</div>
-// );
-
+import NotFoundPage from './pages/NotFoundPage'
+import AboutPage from './pages/AboutPage'
 
 const SwitchRoute = ({routerEndpoint, atlasUrl, suggesterEndpoint, value, species, category, ResultElementClass, handleSelections, routepath, nextSelectedFacets, facetGroup}) => (
   <div>

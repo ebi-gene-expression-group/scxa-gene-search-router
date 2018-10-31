@@ -2,13 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { Route } from 'react-router'
 
-import './NotFoundPage.css'
-
 const Status = ({code, children}) =>
   <Route
     render={({ staticContext }) => {
-      if (staticContext) staticContext.status = code;
-      return children;
+      if (staticContext) staticContext.status = code
+      return children
     }}
   />
 
