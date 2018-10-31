@@ -1,10 +1,9 @@
 {
-  "name": "expression-atlas-my-package",
+  "name": "scxa-gene-search-spa",
   "version": "0.0.1",
-  "description": "My package does some neat things",
+  "description": "A SPA to search genes and visualise experiment results in Single Cell Expression Atlas",
   "main": "lib/index.js",
   "scripts": {
-    "dist": "NODE_ENV=production webpack --optimize-minimize",
     "prepack": "rm -rf lib && babel src -d lib --copy-files",
     "test": "jest --coverage --verbose",
     "postversion": "npm publish",
@@ -21,16 +20,15 @@
   },
   "author": "Expression Atlas developers <arrayexpress-atlas@ebi.ac.uk>",
   "collaborators": [
+    "Lingyun Zhao <lingyun@ebi.ac.uk>",
     "Alfonso Muñoz-Pomer Fuentes <amunoz@ebi.ac.uk>"
   ],
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gxa/my-package.git"
+    "url": "https://github.com/ebi-gene-expression-group/scxa-gene-search-spa.git"
   },
   "dependencies": {
-    "express": "^4.16.3",
-    "path": "^0.12.7",
     "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
     "react": "^16.4.1",
