@@ -6,7 +6,7 @@ const vendorsBundleName = `vendors`
 
 module.exports = {
   entry: {
-    searchDemo: [`@babel/polyfill`, `./html/render.js`],
+    searchRouter: [`@babel/polyfill`, `./html/render.js`],
   },
 
   plugins: [
@@ -17,6 +17,14 @@ module.exports = {
     library: `[name]`,
     filename: `[name].bundle.js`,
     publicPath: commonPublicPath
+  },
+
+  resolve: {
+    alias: {
+      "react": path.resolve(`./node_modules/react`),
+      "react-dom": path.resolve(`./node_modules/react-dom`),
+      "styled-components": path.resolve(`./node_modules/styled-components`)
+    },
   },
 
   optimization: {
